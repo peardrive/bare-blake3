@@ -1,0 +1,45 @@
+{
+  "name": "bare-blake3",
+  "version": "0.1.0",
+  "description": "BLAKE3, compiled, for Bare (iPhone, Android, Mac), and a stand-in for hash-wasm that uses it. An iPhone app's JavaScript has no compiler and no WebAssembly, so pearcore's BLAKE3 fell back to plain JavaScript at about 2 MB a second; with this it runs at about 2,000.",
+  "exports": {
+    ".": {
+      "import": "./hash-wasm.mjs",
+      "default": "./index.js"
+    },
+    "./hash": "./index.js",
+    "./hash-wasm": "./hash-wasm.mjs",
+    "./package": "./package.json"
+  },
+  "files": [
+    "index.js",
+    "binding.js",
+    "hash-wasm.mjs",
+    "binding.c",
+    "neon.c",
+    "blake3",
+    "CMakeLists.txt",
+    "prebuilds",
+    "README.md",
+    "LICENSE"
+  ],
+  "addon": true,
+  "scripts": {
+    "build:mac": "sh build.sh mac",
+    "build:ios": "sh build.sh ios",
+    "build:android": "sh build.sh android",
+    "build": "sh build.sh mac ios android",
+    "test": "bare test.js && bare test-stand-in.mjs && bare test-stand-in.mjs skip=compiled && node test-stand-in.mjs && node test-stand-in.mjs skip=wasm"
+  },
+  "dependencies": {
+    "hash-wasm-wasm": "npm:hash-wasm@4.12.0"
+  },
+  "devDependencies": {
+    "@noble/hashes": "2.4.0",
+    "bare": "^1.37.1",
+    "bare-make": "1.8.0",
+    "cmake-bare": "1.19.1"
+  },
+  "license": "Apache-2.0",
+  "repository": "github:peardrive/bare-blake3"
+}
